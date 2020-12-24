@@ -1,0 +1,15 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+load("@bazel_gazelle//:def.bzl", "gazelle")
+
+# gazelle:prefix gitlab.innovationup.stream/innovation-upstream/api-frame
+gazelle(
+    name = "gazelle",
+)
+
+go_library(
+    name = "api-frame",
+    srcs = ["flat_one_to_many.go"],
+    importpath = "gitlab.innovationup.stream/innovation-upstream/api-frame",
+    visibility = ["//visibility:public"],
+    deps = ["@com_google_cloud_go_firestore//:firestore"],
+)
