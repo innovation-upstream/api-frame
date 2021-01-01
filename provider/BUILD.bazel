@@ -1,0 +1,23 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "external",
+    srcs = ["firebase.go"],
+    importpath = "gitlab.innovationup.stream/innovation-upstream/api-frame/external",
+    visibility = ["//visibility:public"],
+    deps = [
+        "@com_google_firebase_go//:go",
+        "@com_google_firebase_go//auth",
+    ],
+)
+
+go_library(
+    name = "provider",
+    srcs = ["firebase.go"],
+    importpath = "gitlab.innovationup.stream/innovation-upstream/api-frame/provider",
+    visibility = ["//visibility:public"],
+    deps = [
+        "@com_google_firebase_go//:go",
+        "@com_google_firebase_go//auth",
+    ],
+)

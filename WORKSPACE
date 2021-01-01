@@ -1,14 +1,19 @@
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
-# You *must* import the Go rules before setting up the go_image rules.
 http_archive(
     name = "io_bazel_rules_go",
-    sha256 = "b725e6497741d7fc2d55fcc29a276627d10e43fa5d0bb692692890ae30d98d00",
+    sha256 = "7904dbecbaffd068651916dce77ff3437679f9d20e1a7956bff43826e7645fcc",
     urls = [
-        "https://mirror.bazel.build/github.com/bazelbuild/rules_go/releases/download/v0.24.3/rules_go-v0.24.3.tar.gz",
-        "https://github.com/bazelbuild/rules_go/releases/download/v0.24.3/rules_go-v0.24.3.tar.gz",
+        "https://mirror.bazel.build/github.com/bazelbuild/rules_go/releases/download/v0.25.1/rules_go-v0.25.1.tar.gz",
+        "https://github.com/bazelbuild/rules_go/releases/download/v0.25.1/rules_go-v0.25.1.tar.gz",
     ],
 )
+
+load("@io_bazel_rules_go//go:deps.bzl", "go_register_toolchains", "go_rules_dependencies")
+
+go_rules_dependencies()
+
+go_register_toolchains(version = "1.15.6")
 
 http_archive(
     name = "bazel_gazelle",
@@ -19,9 +24,19 @@ http_archive(
     ],
 )
 
-load("@io_bazel_rules_go//go:deps.bzl", "go_register_toolchains", "go_rules_dependencies")
 load("@bazel_gazelle//:deps.bzl", "gazelle_dependencies", "go_repository")
-load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository", "new_git_repository")
+
+http_archive(
+    name = "com_google_protobuf",
+    sha256 = "9748c0d90e54ea09e5e75fb7fac16edce15d2028d4356f32211cfa3c0e956564",
+    strip_prefix = "protobuf-3.11.4",
+    urls = ["https://github.com/protocolbuffers/protobuf/archive/v3.11.4.zip"],
+)
+
+load("@com_google_protobuf//:protobuf_deps.bzl", "protobuf_deps")
+
+protobuf_deps()
+
 
 go_repository(
     name = "co_honnef_go_tools",
@@ -339,6 +354,13 @@ go_repository(
 )
 
 go_repository(
+    name = "com_google_firebase_go",
+    importpath = "firebase.google.com/go",
+    sum = "h1:3TdYC3DDi6aHn20qoRkxwGqNgdjtblwVAyRLQwGn/+4=",
+    version = "v3.13.0+incompatible",
+)
+
+go_repository(
     name = "com_shuralyov_dmitri_gpu_mtl",
     importpath = "dmitri.shuralyov.com/gpu/mtl",
     sum = "h1:VpgP7xuJadIUuKccphEpTJnWhS2jkQyMt6Y7pJCD7fY=",
@@ -526,9 +548,5 @@ go_repository(
     sum = "h1:go1bK/D/BFZV2I8cIQd1NKEZ+0owSTG1fDTci4IqFcE=",
     version = "v0.0.0-20200804184101-5ec99f83aff1",
 )
-
-go_rules_dependencies()
-
-go_register_toolchains()
 
 gazelle_dependencies()
