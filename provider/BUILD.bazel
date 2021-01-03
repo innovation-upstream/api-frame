@@ -21,9 +21,3 @@ go_library(
         "@com_google_firebase_go//auth",
     ],
 )
-
-alias(
-    name = "go_default_library",
-    actual = ":provider",
-    visibility = ["//visibility:public"],
-)
