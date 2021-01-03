@@ -10,3 +10,9 @@ go_library(
     visibility = ["//visibility:public"],
     deps = ["//provider"],
 )
+
+alias(
+    name = "go_default_library",
+    actual = ":middleware",
+    visibility = ["//visibility:public"],
+)
