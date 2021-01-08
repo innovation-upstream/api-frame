@@ -6,7 +6,7 @@ import (
 	"cloud.google.com/go/firestore"
 )
 
-//go:generate mockgen -destination=../mock/repo_mock.go -package=mock gitlab.com/mobl-dev/common/repo Repo
+//go:generate mockgen -destination=../mock/repo_mock.go -package=mock gitlab.innovationup.stream/innovation-upstream/iu-common-go/service/data/repo Repo
 type Repo interface {
 	CreateOne(ctx context.Context, data interface{}) error
 	First(ctx context.Context, ownerUID string, dest interface{}) error
