@@ -21,6 +21,7 @@ type errorResponse struct {
 
 // Authenticate returns a middleware function that parses and validates a firebase session JWT.
 // The authenticated user's UID is then injected into the request context.
+// Also supports custom firebase tokens
 func Authenticate() func(http.Handler) http.Handler {
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -29,7 +30,6 @@ func Authenticate() func(http.Handler) http.Handler {
 				msg, err := json.Marshal(errorResponse{Message: "unauthorized"})
 				if err != nil {
 					panic(err)
-					return
 				}
 
 				http.Error(w, string(msg), http.StatusUnauthorized)
@@ -42,7 +42,6 @@ func Authenticate() func(http.Handler) http.Handler {
 				msg, err := json.Marshal(errorResponse{Message: "unauthorized"})
 				if err != nil {
 					panic(err)
-					return
 				}
 
 				http.Error(w, string(msg), http.StatusUnauthorized)
