@@ -17,5 +17,6 @@ password <gitlab personal access token>
 2. Set the GOPRIVATE env var when running `go get` so Golang bypasses module proxy servers and downloads directly from gitlab.
 
 ```shell
-$ GOPRIVATE=gitlab.innovationup.stream go get gitlab.innovationup.stream/innovation-upstream/api-frame
+$ go env -w GOPRIVATE=gitlab.innovationup.stream 
+$ go get gitlab.innovationup.stream/innovation-upstream/api-frame
 ```
