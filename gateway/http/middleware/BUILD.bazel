@@ -3,12 +3,15 @@ load("@io_bazel_rules_go//go:def.bzl", "go_library")
 go_library(
     name = "middleware",
     srcs = [
-        "cors.go",
+        "cloudflare_access_jwt.go",
         "firebase_jwt_auth.go",
     ],
     importpath = "gitlab.innovationup.stream/innovation-upstream/api-frame/gateway/http/middleware",
     visibility = ["//visibility:public"],
-    deps = ["//provider"],
+    deps = [
+        "//provider",
+        "@com_github_coreos_go_oidc//:go_default_library",
+    ],
 )
 
 alias(
