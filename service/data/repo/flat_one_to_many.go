@@ -49,8 +49,14 @@ func NewFlatOneToManyRepo(db *firestore.Client, collection string, opts ...FlatO
 	return s
 }
 
+func (s *flatOneToManyRepo) ref(ownerUID string) *firestore.Query {
+	q := s.db.Collection(s.containerName).Where(s.ownerUIDField, "==", ownerUID)
+
+	return &q
+}
+
 func (s *flatOneToManyRepo) firstRef(ctx context.Context, ownerUID string) (*firestore.DocumentSnapshot, error) {
-	docs := s.db.Collection(s.containerName).Where(s.ownerUIDField, "==", ownerUID).Documents(ctx)
+	docs := s.ref(ownerUID).Documents(ctx)
 	doc, err := docs.Next()
 	err = CheckIteratorNextError(err)
 	if err != nil {
@@ -60,8 +66,14 @@ func (s *flatOneToManyRepo) firstRef(ctx context.Context, ownerUID string) (*fir
 	return doc, nil
 }
 
+func (s *flatOneToManyRepo) dataRef(dataUID string) *firestore.Query {
+	q := s.db.Collection(s.containerName).Where(s.dataUIDField, "==", dataUID)
+
+	return &q
+}
+
 func (s *flatOneToManyRepo) firstDataRef(ctx context.Context, dataUID string) (*firestore.DocumentSnapshot, error) {
-	docs := s.db.Collection(s.containerName).Where(s.dataUIDField, "==", dataUID).Documents(ctx)
+	docs := s.dataRef(dataUID).Documents(ctx)
 	doc, err := docs.Next()
 	err = CheckIteratorNextError(err)
 	if err != nil {
@@ -148,4 +160,48 @@ func (s *flatOneToManyRepo) FirstData(ctx context.Context, dataUID string, dest 
 	}
 
 	return nil
+}
+
+// Get many documents from a collection, returns true if there are more documents matching the query
+func (s *flatOneToManyRepo) Get(ctx context.Context, ownerUID string, dest *[]interface{}, opts ...QueryOption) (bool, error) {
+	q := s.ref(ownerUID)
+	qm := &firestoreQueryMutate{
+		query: q,
+	}
+	qm.ApplyMutations(opts...)
+	docs := q.Documents(ctx)
+	if docs == nil {
+		return false, nil
+	}
+
+	list, hasMoreResults, err := ParseIterator(docs, qm.GetLimit())
+	if err != nil {
+		return hasMoreResults, err
+	}
+
+	*dest = *list
+
+	return hasMoreResults, nil
+}
+
+// Get many documents from a collection, returns true if there are more documents matching the query
+func (s *flatOneToManyRepo) GetData(ctx context.Context, dataUID string, dest *[]interface{}, opts ...QueryOption) (bool, error) {
+	q := s.ref(dataUID)
+	qm := &firestoreQueryMutate{
+		query: q,
+	}
+	qm.ApplyMutations(opts...)
+	docs := q.Documents(ctx)
+	if docs == nil {
+		return false, nil
+	}
+
+	list, hasMoreResults, err := ParseIterator(docs, qm.GetLimit())
+	if err != nil {
+		return hasMoreResults, err
+	}
+
+	*dest = *list
+
+	return hasMoreResults, nil
 }

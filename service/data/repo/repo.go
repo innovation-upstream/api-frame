@@ -15,4 +15,6 @@ type Repo interface {
 	FirstData(ctx context.Context, dataUID string, dest interface{}) error
 	UpdateFirst(ctx context.Context, ownerUID string, data interface{}, opts ...firestore.SetOption) error
 	UpdateFirstData(ctx context.Context, dataUID string, data interface{}, opts ...firestore.SetOption) error
+	Get(ctx context.Context, ownerUID string, dest *[]interface{}, opts ...QueryOption) (bool, error)
+	GetData(ctx context.Context, dataUID string, dest *[]interface{}, opts ...QueryOption) (bool, error)
 }
