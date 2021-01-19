@@ -24,8 +24,14 @@ func VerifyCloudflareAccessJWT() func(http.Handler) http.Handler {
 
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			headers := r.Header
-			accessJWT := headers.Get("Cf-Access-Jwt-Assertion")
+			cookies := r.Cookies()
+			var accessJWT string
+			for _, cookie := range cookies {
+				if cookie.Name == "CF_Authorization" {
+					accessJWT = cookie.Value
+				}
+			}
+
 			if accessJWT == "" {
 				w.WriteHeader(http.StatusUnauthorized)
 				w.Write([]byte("Unauthenticated"))
