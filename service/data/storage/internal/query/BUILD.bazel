@@ -1,0 +1,22 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "query",
+    srcs = [
+        "firebase_query_customize.go",
+        "mysql_query_customize.go",
+    ],
+    importpath = "gitlab.innovationup.stream/innovation-upstream/api-frame/service/data/storage/internal/query",
+    visibility = ["//service/data/storage:__subpackages__"],
+    deps = [
+        "//service/data/storage/query",
+        "@com_github_masterminds_squirrel//:go_default_library",
+        "@com_google_cloud_go_firestore//:go_default_library",
+    ],
+)
+
+alias(
+    name = "go_default_library",
+    actual = ":query",
+    visibility = ["//service/data/storage:__subpackages__"],
+)

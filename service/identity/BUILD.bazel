@@ -1,0 +1,24 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "identity",
+    srcs = [
+        "access_control.go",
+        "access_control_enforcer.go",
+    ],
+    importpath = "gitlab.innovationup.stream/innovation-upstream/api-frame/service/identity",
+    visibility = ["//visibility:public"],
+    deps = [
+        "@com_github_casbin_casbin_v2//:go_default_library",
+        "@com_github_casbin_casbin_v2//model:go_default_library",
+        "@com_github_reedom_casbin_firestore_adapter//:go_default_library",
+        "@com_google_cloud_go_firestore//:go_default_library",
+        "@dev_unknwon_clog_v2//:go_default_library",
+    ],
+)
+
+alias(
+    name = "go_default_library",
+    actual = ":identity",
+    visibility = ["//visibility:public"],
+)
