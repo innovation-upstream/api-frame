@@ -1,0 +1,17 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "query",
+    srcs = [
+        "customize.go",
+        "option.go",
+    ],
+    importpath = "gitlab.innovationup.stream/innovation-upstream/api-frame/service/data/storage/query",
+    visibility = ["//visibility:public"],
+)
+
+alias(
+    name = "go_default_library",
+    actual = ":query",
+    visibility = ["//visibility:public"],
+)

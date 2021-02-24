@@ -1,0 +1,14 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "field",
+    srcs = ["type.go"],
+    importpath = "gitlab.innovationup.stream/innovation-upstream/api-frame/service/data/storage/field",
+    visibility = ["//visibility:public"],
+)
+
+alias(
+    name = "go_default_library",
+    actual = ":field",
+    visibility = ["//visibility:public"],
+)

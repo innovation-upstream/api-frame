@@ -1,0 +1,31 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+alias(
+    name = "go_default_library",
+    actual = ":storage",
+    visibility = ["//visibility:public"],
+)
+
+go_library(
+    name = "storage",
+    srcs = [
+        "flat_one_to_many.go",
+        "option.go",
+        "storage.go",
+        "table.go",
+    ],
+    importpath = "gitlab.innovationup.stream/innovation-upstream/api-frame/service/data/storage",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//service/data/storage/field",
+        "//service/data/storage/internal/helper",
+        "//service/data/storage/internal/query",
+        "//service/data/storage/query",
+        "@com_github_georgysavva_scany//sqlscan:go_default_library",
+        "@com_github_masterminds_squirrel//:go_default_library",
+        "@com_google_cloud_go_firestore//:go_default_library",
+        "@org_golang_google_api//iterator:go_default_library",
+        "@org_golang_google_grpc//:go_default_library",
+        "@org_golang_google_grpc//codes:go_default_library",
+    ],
+)
