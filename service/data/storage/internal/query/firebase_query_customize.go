@@ -27,11 +27,13 @@ func (c *firestoreQueryCustomize) ApplyOptions(opts ...query.Option) {
 func (c *firestoreQueryCustomize) SetLimit(l int) {
 	c.limit = l
 	// Add one to limit so we know if there are more results
-	c.query.Limit(l + 1)
+	queryWithLimit := c.query.Limit(l + 1)
+	*c.query = queryWithLimit
 }
 
 func (c *firestoreQueryCustomize) SetOffset(o int) {
-	c.query.Offset(o)
+	queryWithOffset := c.query.Offset(o)
+	*c.query = queryWithOffset
 }
 
 func (c *firestoreQueryCustomize) GetLimit() int {
