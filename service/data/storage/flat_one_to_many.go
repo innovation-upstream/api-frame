@@ -119,7 +119,11 @@ func (s *flatOneToManyCollectionStorage) UpdateFirst(ctx context.Context, purp f
 		return err
 	}
 
-	setOpt := firestore.Merge([]firestore.FieldPath{c.GetQueryFields()}...)
+	var fieldPaths []firestore.FieldPath
+	for _, field := range c.GetQueryFields() {
+		fieldPaths = append(fieldPaths, firestore.FieldPath([]string{field}))
+	}
+	setOpt := firestore.Merge(fieldPaths...)
 
 	_, err = doc.Ref.Set(ctx, data, setOpt)
 	if err != nil {
@@ -153,7 +157,10 @@ func (s *flatOneToManyCollectionStorage) Get(ctx context.Context, idType field.F
 		return false, nil
 	}
 
-	hasMoreResults, err := helper.ParseIterator(docs, c.GetLimit(), dest)
+	// subtract one from limit so we know if there are more results.
+	// (by default, limit + 1 is retrieved)
+	// TODO(zach): implement GetAfter so we never pull redundent records
+	hasMoreResults, err := helper.ParseIterator(docs, c.GetLimit()-1, dest)
 	if err != nil {
 		return hasMoreResults, err
 	}
