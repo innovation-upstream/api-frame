@@ -60,15 +60,25 @@ func (s *flatOneToManyCollectionStorage) getUIDField(idType field.FieldPurpose) 
 }
 
 func (s *flatOneToManyCollectionStorage) ref(ownerUID string, idType field.FieldPurpose) *firestore.Query {
-	uidField := s.getUIDField(idType)
-	q := s.db.Collection(s.collectionName).Where(uidField, "==", ownerUID)
+	var q firestore.Query
+	if idType == field.PurposeReferenceNone {
+		q = s.db.Collection(s.collectionName).Query
+	} else {
+		uidField := s.getUIDField(idType)
+		q = q.Where(uidField, "==", ownerUID)
+	}
 
 	return &q
 }
 
 func (s *flatOneToManyCollectionStorage) refMany(idType field.FieldPurpose, uids []string) *firestore.Query {
-	uidField := s.getUIDField(idType)
-	q := s.db.Collection(s.collectionName).Where(uidField, "in", uids)
+	var q firestore.Query
+	if idType == field.PurposeReferenceNone {
+		q = s.db.Collection(s.collectionName).Query
+	} else {
+		uidField := s.getUIDField(idType)
+		q = q.Where(uidField, "in", uids)
+	}
 
 	return &q
 }
@@ -90,10 +100,17 @@ func (s *flatOneToManyCollectionStorage) getCollection() *firestore.CollectionRe
 
 // Get the first document in the collection that has a matching uid
 func (s *flatOneToManyCollectionStorage) First(ctx context.Context, idType field.FieldPurpose, uid string, dest interface{}, opts ...externQuery.Option) error {
-	doc, err := s.firstRef(ctx, idType, uid)
+	q := s.ref(uid, idType)
+	q.Limit(1)
+	c := query.NewFirestoreQueryCustomize(q)
+	c.ApplyOptions(opts...)
+	docs := s.ref(uid, idType).Documents(ctx)
+	doc, err := docs.Next()
+	err = helper.CheckIteratorNextError(err)
 	if err != nil {
 		return err
 	}
+
 	if doc == nil || doc.Exists() == false {
 		return nil
 	}
@@ -133,7 +150,7 @@ func (s *flatOneToManyCollectionStorage) UpdateFirst(ctx context.Context, purp f
 	return nil
 }
 
-func (s *flatOneToManyCollectionStorage) CreateOne(ctx context.Context, data interface{}, opts ...externQuery.Option) error {
+func (s *flatOneToManyCollectionStorage) CreateOne(ctx context.Context, data interface{}) error {
 	_, _, err := s.getCollection().Add(ctx, data)
 	if err != nil {
 		return err
@@ -145,11 +162,7 @@ func (s *flatOneToManyCollectionStorage) CreateOne(ctx context.Context, data int
 // Get many documents from a collection, returns true if there are more documents matching the query
 func (s *flatOneToManyCollectionStorage) Get(ctx context.Context, idType field.FieldPurpose, UIDs []string, dest *[]interface{}, opts ...externQuery.Option) (bool, error) {
 	var q *firestore.Query
-	if idType == field.PurposeReferenceNone {
-		q = &s.db.Collection(s.collectionName).Query
-	} else {
-		q = s.refMany(idType, UIDs)
-	}
+	q = s.refMany(idType, UIDs)
 	c := query.NewFirestoreQueryCustomize(q)
 	c.ApplyOptions(opts...)
 	docs := q.Documents(ctx)
