@@ -14,7 +14,7 @@ Storage is a generic data persistance interface that aims to wrap interaction wi
 platforms so consumers do not need to consider storage platform/method when persisting data.
 */
 type Storage interface {
-	CreateOne(ctx context.Context, data interface{}, opts ...query.Option) error
+	CreateOne(ctx context.Context, data interface{}) error
 	First(ctx context.Context, purpose field.FieldPurpose, uid string, dest interface{}, opts ...query.Option) error
 	UpdateFirst(ctx context.Context, purpose field.FieldPurpose, uid string, data interface{}, opts ...query.Option) error
 	Get(ctx context.Context, purpose field.FieldPurpose, UIDs []string, dest *[]interface{}, opts ...query.Option) (bool, error)

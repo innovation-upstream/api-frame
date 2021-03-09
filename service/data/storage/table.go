@@ -134,7 +134,7 @@ func (s *tableStorage) UpdateFirst(ctx context.Context, purp field.FieldPurpose,
 	return nil
 }
 
-func (s *tableStorage) CreateOne(ctx context.Context, data interface{}, opts ...externQuery.Option) error {
+func (s *tableStorage) CreateOne(ctx context.Context, data interface{}) error {
 	rawData, err := json.Marshal(data)
 	if err != nil {
 		return err
@@ -147,8 +147,6 @@ func (s *tableStorage) CreateOne(ctx context.Context, data interface{}, opts ...
 	}
 
 	q := sq.Insert(s.table).SetMap(mapData)
-	c := query.NewMysqlQueryCustomize(nil, nil, &q)
-	c.ApplyOptions(opts...)
 	sql, args, err := q.ToSql()
 	if err != nil {
 		return err
