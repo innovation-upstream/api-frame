@@ -59,13 +59,11 @@ func (s *flatOneToManyCollectionStorage) getUIDField(idType field.FieldPurpose) 
 	return uidField
 }
 
-func (s *flatOneToManyCollectionStorage) ref(ownerUID string, idType field.FieldPurpose) *firestore.Query {
-	var q firestore.Query
-	if idType == field.PurposeReferenceNone {
-		q = s.db.Collection(s.collectionName).Query
-	} else {
+func (s *flatOneToManyCollectionStorage) ref(refUID string, idType field.FieldPurpose) *firestore.Query {
+	q := s.db.Collection(s.collectionName).Query
+	if idType != field.PurposeReferenceNone {
 		uidField := s.getUIDField(idType)
-		q = q.Where(uidField, "==", ownerUID)
+		q = q.Where(uidField, "==", refUID)
 	}
 
 	return &q
@@ -83,8 +81,8 @@ func (s *flatOneToManyCollectionStorage) refMany(idType field.FieldPurpose, uids
 	return &q
 }
 
-func (s *flatOneToManyCollectionStorage) firstRef(ctx context.Context, idType field.FieldPurpose, ownerUID string) (*firestore.DocumentSnapshot, error) {
-	docs := s.ref(ownerUID, idType).Limit(1).Documents(ctx)
+func (s *flatOneToManyCollectionStorage) firstRef(ctx context.Context, idType field.FieldPurpose, refUID string) (*firestore.DocumentSnapshot, error) {
+	docs := s.ref(refUID, idType).Limit(1).Documents(ctx)
 	doc, err := docs.Next()
 	err = helper.CheckIteratorNextError(err)
 	if err != nil {
