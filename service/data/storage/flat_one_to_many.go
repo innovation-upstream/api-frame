@@ -71,9 +71,8 @@ func (s *flatOneToManyCollectionStorage) ref(refUID string, idType field.FieldPu
 
 func (s *flatOneToManyCollectionStorage) refMany(idType field.FieldPurpose, uids []string) *firestore.Query {
 	var q firestore.Query
-	if idType == field.PurposeReferenceNone {
-		q = s.db.Collection(s.collectionName).Query
-	} else {
+	q = s.db.Collection(s.collectionName).Query
+	if idType != field.PurposeReferenceNone {
 		uidField := s.getUIDField(idType)
 		q = q.Where(uidField, "in", uids)
 	}
