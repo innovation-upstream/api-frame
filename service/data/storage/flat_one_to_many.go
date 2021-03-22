@@ -133,15 +133,23 @@ func (s *flatOneToManyCollectionStorage) UpdateFirst(ctx context.Context, purp f
 		return err
 	}
 
-	var fieldPaths []firestore.FieldPath
-	for _, field := range c.GetQueryFields() {
-		fieldPaths = append(fieldPaths, firestore.FieldPath([]string{field}))
-	}
-	setOpt := firestore.Merge(fieldPaths...)
-
-	_, err = doc.Ref.Set(ctx, data, setOpt)
-	if err != nil {
-		return err
+	var setOpts []firestore.SetOption
+	optFields := c.GetQueryFields()
+	if len(optFields) > 0 {
+		var fieldPaths []firestore.FieldPath
+		for _, field := range optFields {
+			fieldPaths = append(fieldPaths, firestore.FieldPath([]string{field}))
+		}
+		setOpts = append(setOpts, firestore.Merge(fieldPaths...))
+		_, err = doc.Ref.Set(ctx, data, setOpts...)
+		if err != nil {
+			return err
+		}
+	} else {
+		_, err = doc.Ref.Set(ctx, data)
+		if err != nil {
+			return err
+		}
 	}
 
 	return nil
