@@ -101,7 +101,7 @@ func (s *flatOneToManyCollectionStorage) First(ctx context.Context, idType field
 	q.Limit(1)
 	c := query.NewFirestoreQueryCustomize(q)
 	c.ApplyOptions(opts...)
-	docs := s.ref(uid, idType).Documents(ctx)
+	docs := q.Documents(ctx)
 	doc, err := docs.Next()
 	err = helper.CheckIteratorNextError(err)
 	if err != nil {
@@ -133,13 +133,17 @@ func (s *flatOneToManyCollectionStorage) UpdateFirst(ctx context.Context, purp f
 		return err
 	}
 
-	var fieldPaths []firestore.FieldPath
-	for _, field := range c.GetQueryFields() {
-		fieldPaths = append(fieldPaths, firestore.FieldPath([]string{field}))
+	var setOpts []firestore.SetOption
+	optFields := c.GetQueryFields()
+	if len(optFields) > 0 {
+		var fieldPaths []firestore.FieldPath
+		for _, field := range optFields {
+			fieldPaths = append(fieldPaths, firestore.FieldPath([]string{field}))
+		}
+		setOpts = append(setOpts, firestore.Merge(fieldPaths...))
 	}
-	setOpt := firestore.Merge(fieldPaths...)
 
-	_, err = doc.Ref.Set(ctx, data, setOpt)
+	_, err = doc.Ref.Set(ctx, data, setOpts...)
 	if err != nil {
 		return err
 	}
