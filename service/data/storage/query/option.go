@@ -30,3 +30,10 @@ func WithWhere(path, op string, val interface{}) Option {
 		q.AddWhere(path, op, val)
 	}
 }
+
+// WithStartAfter sets the query start position
+func WithStartAfter(field string, val interface{}) Option {
+	return func(q Customize) {
+		q.SetStartAfter(field, val)
+	}
+}

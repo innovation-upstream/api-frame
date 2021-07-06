@@ -6,9 +6,10 @@ require (
 	cloud.google.com/go/firestore v1.2.0
 	firebase.google.com/go v3.13.0+incompatible
 	github.com/Masterminds/squirrel v1.5.0
-	github.com/casbin/casbin/v2 v2.23.3
+	github.com/casbin/casbin/v2 v2.35.2
 	github.com/coreos/go-oidc v2.2.1+incompatible
 	github.com/georgysavva/scany v0.2.7
+	github.com/golang/mock v1.4.4
 	github.com/pquerna/cachecontrol v0.0.0-20201205024021-ac21108117ac // indirect
 	github.com/reedom/casbin-firestore-adapter v0.0.0-20200726095359-bc86ae44a7a9
 	golang.org/x/mod v0.4.0 // indirect

@@ -416,8 +416,8 @@ go_repository(
 go_repository(
     name = "com_github_casbin_casbin_v2",
     importpath = "github.com/casbin/casbin/v2",
-    sum = "h1:Swy4eSMLcsZ7JiPMTH7XDJkk6lXU5cMYUX9AxTHm180=",
-    version = "v2.23.3",
+    sum = "h1:ZOr7TendoeXNqGdf1YCdCu21E5alUZrNWPbH1h3zHlk=",
+    version = "v2.35.2",
 )
 
 go_repository(

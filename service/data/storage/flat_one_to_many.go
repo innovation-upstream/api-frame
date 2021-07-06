@@ -143,9 +143,13 @@ func (s *flatOneToManyCollectionStorage) UpdateFirst(ctx context.Context, purp f
 		setOpts = append(setOpts, firestore.Merge(fieldPaths...))
 	}
 
-	_, err = doc.Ref.Set(ctx, data, setOpts...)
-	if err != nil {
-		return err
+	if doc == nil || !doc.Exists() {
+		return s.CreateOne(ctx, data)
+	} else {
+		_, err = doc.Ref.Set(ctx, data, setOpts...)
+		if err != nil {
+			return err
+		}
 	}
 
 	return nil
@@ -183,23 +187,40 @@ func (s *flatOneToManyCollectionStorage) Get(ctx context.Context, idType field.F
 }
 
 // Delete from the collection the first document with a matching uid
-func (s *flatOneToManyCollectionStorage) DeleteFirst(ctx context.Context, purp field.FieldPurpose, uid string) error {
-	q, err := s.firstRef(ctx, purp, uid)
-	if err != nil {
-		return err
-	}
+func (s *flatOneToManyCollectionStorage) DeleteFirst(ctx context.Context, purp field.FieldPurpose, uid string, opts ...externQuery.Option) error {
+	q := s.refMany(purp, []string{uid})
+	c := query.NewFirestoreQueryCustomize(q)
+	c.ApplyOptions(opts...)
+	q.Limit(1)
+	docs := q.Documents(ctx)
 
-	_, err = q.Ref.Delete(ctx)
-	if err != nil {
-		return err
+	for {
+		doc, err := docs.Next()
+		if err != nil {
+			if err == iterator.Done {
+				if grpc.Code(err) == codes.NotFound {
+					return nil
+				}
+				break
+			} else {
+				return err
+			}
+		}
+
+		_, err = doc.Ref.Delete(ctx)
+		if err != nil {
+			return err
+		}
 	}
 
 	return nil
 }
 
 // Delete from the collection the first document with a matching uid
-func (s *flatOneToManyCollectionStorage) Delete(ctx context.Context, purp field.FieldPurpose, uids []string) error {
+func (s *flatOneToManyCollectionStorage) Delete(ctx context.Context, purp field.FieldPurpose, uids []string, opts ...externQuery.Option) error {
 	q := s.refMany(purp, uids)
+	c := query.NewFirestoreQueryCustomize(q)
+	c.ApplyOptions(opts...)
 	docs := q.Documents(ctx)
 
 	for {

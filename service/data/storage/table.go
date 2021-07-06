@@ -66,7 +66,7 @@ func (s *tableStorage) First(ctx context.Context, purp field.FieldPurpose, uid s
 		From(s.table).
 		Where(fmt.Sprintf("%s = ?", uidField), uid).
 		Limit(1)
-	c := query.NewMysqlQueryCustomize(&q, nil, nil)
+	c := query.NewMysqlQueryCustomize(&q, nil, nil, nil)
 	c.ApplyOptions(opts...)
 	sql, args, err := q.ToSql()
 	if err != nil {
@@ -114,7 +114,7 @@ func (s *tableStorage) UpdateFirst(ctx context.Context, purp field.FieldPurpose,
 		Where(fmt.Sprintf("%s = ?", uidField), uid).
 		SetMap(mapData).
 		Limit(1)
-	c := query.NewMysqlQueryCustomize(nil, &q, nil)
+	c := query.NewMysqlQueryCustomize(nil, &q, nil, nil)
 	c.ApplyOptions(opts...)
 	sql, args, err := q.ToSql()
 	if err != nil {
@@ -173,7 +173,7 @@ func (s *tableStorage) Get(ctx context.Context, purp field.FieldPurpose, UIDs []
 		Select("*").
 		From(s.table).
 		Where(fmt.Sprintf("%s in ?", uidField), UIDs)
-	c := query.NewMysqlQueryCustomize(&q, nil, nil)
+	c := query.NewMysqlQueryCustomize(&q, nil, nil, nil)
 	c.ApplyOptions(opts...)
 	sql, args, err := q.ToSql()
 	if err != nil {
@@ -203,12 +203,14 @@ func (s *tableStorage) Get(ctx context.Context, purp field.FieldPurpose, UIDs []
 }
 
 // Delete from the collection the first document with a matching uid
-func (s *tableStorage) DeleteFirst(ctx context.Context, purp field.FieldPurpose, uid string) error {
+func (s *tableStorage) DeleteFirst(ctx context.Context, purp field.FieldPurpose, uid string, opts ...externQuery.Option) error {
 	uidField := s.getUIDField(purp)
 	q := sq.
 		Delete(s.table).
 		Where(fmt.Sprintf("%s = ?", uidField), uid).
 		Limit(1)
+	c := query.NewMysqlQueryCustomize(nil, nil, nil, &q)
+	c.ApplyOptions(opts...)
 	sql, args, err := q.ToSql()
 	if err != nil {
 		return err
@@ -228,12 +230,14 @@ func (s *tableStorage) DeleteFirst(ctx context.Context, purp field.FieldPurpose,
 }
 
 // Delete from the collection the first document with a matching uid
-func (s *tableStorage) Delete(ctx context.Context, purp field.FieldPurpose, uids []string) error {
+func (s *tableStorage) Delete(ctx context.Context, purp field.FieldPurpose, uids []string, opts ...externQuery.Option) error {
 	uidField := s.getUIDField(purp)
 	q := sq.
 		Delete(s.table).
 		Where(fmt.Sprintf("%s = ?", uidField), uids).
 		Limit(1)
+	c := query.NewMysqlQueryCustomize(nil, nil, nil, &q)
+	c.ApplyOptions(opts...)
 	sql, args, err := q.ToSql()
 	if err != nil {
 		return err

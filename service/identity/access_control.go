@@ -7,6 +7,8 @@ import (
 type AccessControl interface {
 	Enforce(identityID, domain, model, field, act string) (bool, error)
 	AddPolicy(identityID, domain, model, field, act string) error
+	RemovePolicy(identityID, domain, model, field, act string) error
+	HasPolicy(identityID, domain, model, field, act string) bool
 }
 
 type accessControl struct {
@@ -35,4 +37,17 @@ func (ac *accessControl) AddPolicy(identityID, domain, model, field, act string)
 	}
 
 	return nil
+}
+
+func (ac *accessControl) RemovePolicy(identityID, domain, model, field, act string) error {
+	_, err := ac.enforcer.RemovePolicy(identityID, domain, model, field, act)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (ac *accessControl) HasPolicy(identityID, domain, model, field, act string) bool {
+	return ac.enforcer.HasPolicy(identityID, domain, model, field, act)
 }

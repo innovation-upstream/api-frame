@@ -5,18 +5,22 @@ import (
 	"gitlab.innovationup.stream/innovation-upstream/api-frame/service/data/storage/query"
 )
 
-type firestoreQueryCustomize struct {
-	query  *firestore.Query
-	limit  int
-	fields []string
-}
+type (
+	firestoreQueryCustomize struct {
+		query  *firestore.Query
+		limit  int
+		fields []string
+	}
+
+	FirestoreQueryCustomizeFactory func(q *firestore.Query) query.Customize
+)
 
 // NewFirestoreQueryCustomize constructs a customizeFirestore instance
-func NewFirestoreQueryCustomize(q *firestore.Query) query.Customize {
+var NewFirestoreQueryCustomize = FirestoreQueryCustomizeFactory(func(q *firestore.Query) query.Customize {
 	return &firestoreQueryCustomize{
 		query: q,
 	}
-}
+})
 
 func (c *firestoreQueryCustomize) ApplyOptions(opts ...query.Option) {
 	for _, opt := range opts {
@@ -51,4 +55,9 @@ func (c *firestoreQueryCustomize) GetQueryFields() []string {
 func (c *firestoreQueryCustomize) AddWhere(path, op string, val interface{}) {
 	queryWithWhere := c.query.Where(path, op, val)
 	*c.query = queryWithWhere
+}
+
+func (c *firestoreQueryCustomize) SetStartAfter(field string, val interface{}) {
+	queryWithStart := c.query.OrderBy(field, firestore.Asc).StartAfter(val)
+	*c.query = queryWithStart
 }
