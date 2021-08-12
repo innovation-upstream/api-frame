@@ -6,7 +6,7 @@ import (
 	"cloud.google.com/go/firestore"
 	"github.com/casbin/casbin/v2"
 	"github.com/casbin/casbin/v2/model"
-	firestoreadapter "github.com/reedom/casbin-firestore-adapter"
+	firestoreadapter "github.com/innovation-upstream/casbin-firestore-adapter"
 	"unknwon.dev/clog/v2"
 )
 
