@@ -7,7 +7,7 @@ import (
 	"gitlab.innovationup.stream/innovation-upstream/api-frame/service/data/storage/query"
 )
 
-//go:generate mockgen -destination=../mock/storage_mock.go -package=mock gitlab.innovationup.stream/innovation-upstream/iu-common-go/service/data/storage Storage
+//go:generate mockgen -destination=../mock/storage_mock.go -package=mock gitlab.innovationup.stream/innovation-upstream/api-frame/service/data/storage Storage
 
 /*
 Storage is a generic data persistance interface that aims to wrap interaction with data persistance
@@ -18,8 +18,8 @@ type Storage interface {
 	First(ctx context.Context, purpose field.FieldPurpose, uid string, dest interface{}, opts ...query.Option) error
 	UpdateFirst(ctx context.Context, purpose field.FieldPurpose, uid string, data interface{}, opts ...query.Option) error
 	Get(ctx context.Context, purpose field.FieldPurpose, UIDs []string, dest *[]interface{}, opts ...query.Option) (bool, error)
-	DeleteFirst(ctx context.Context, purpose field.FieldPurpose, uid string) error
-	Delete(ctx context.Context, purpose field.FieldPurpose, uids []string) error
+	DeleteFirst(ctx context.Context, purpose field.FieldPurpose, uid string, opts ...query.Option) error
+	Delete(ctx context.Context, purpose field.FieldPurpose, uids []string, opts ...query.Option) error
 	setOwnerUIDFieldName(f string)
 	setInternalUIDFieldName(f string)
 	setExternalUIDFieldName(f string)
