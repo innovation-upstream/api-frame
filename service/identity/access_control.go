@@ -31,7 +31,7 @@ func (ac *accessControl) Enforce(identityID, domain, model, field, act string) (
 }
 
 func (ac *accessControl) AddPolicy(identityID, domain, model, field, act string) error {
-	_, err := ac.enforcer.AddPolicy(identityID, domain, model, field, act)
+	_, err := ac.enforcer.AddPolicy(identityID, domain, model, field, act, "")
 	if err != nil {
 		return err
 	}
@@ -40,7 +40,7 @@ func (ac *accessControl) AddPolicy(identityID, domain, model, field, act string)
 }
 
 func (ac *accessControl) RemovePolicy(identityID, domain, model, field, act string) error {
-	_, err := ac.enforcer.RemovePolicy(identityID, domain, model, field, act)
+	_, err := ac.enforcer.RemovePolicy(identityID, domain, model, field, act, "")
 	if err != nil {
 		return err
 	}
@@ -49,5 +49,5 @@ func (ac *accessControl) RemovePolicy(identityID, domain, model, field, act stri
 }
 
 func (ac *accessControl) HasPolicy(identityID, domain, model, field, act string) bool {
-	return ac.enforcer.HasPolicy(identityID, domain, model, field, act)
+	return ac.enforcer.HasPolicy(identityID, domain, model, field, act, "")
 }
