@@ -8,6 +8,7 @@ import (
 
 	sq "github.com/Masterminds/squirrel"
 	"github.com/georgysavva/scany/sqlscan"
+	"github.com/pkg/errors"
 	"gitlab.innovationup.stream/innovation-upstream/api-frame/service/data/storage/field"
 	"gitlab.innovationup.stream/innovation-upstream/api-frame/service/data/storage/internal/query"
 	externQuery "gitlab.innovationup.stream/innovation-upstream/api-frame/service/data/storage/query"
@@ -70,17 +71,17 @@ func (s *tableStorage) First(ctx context.Context, purp field.FieldPurpose, uid s
 	c.ApplyOptions(opts...)
 	sql, args, err := q.ToSql()
 	if err != nil {
-		return err
+		return errors.WithStack(err)
 	}
 
 	stmnt, err := s.db.PrepareContext(ctx, sql)
 	if err != nil {
-		return err
+		return errors.WithStack(err)
 	}
 
 	rows, err := stmnt.QueryContext(ctx, args...)
 	if err != nil {
-		return err
+		return errors.WithStack(err)
 	}
 
 	err = sqlscan.ScanOne(dest, rows)
@@ -89,7 +90,7 @@ func (s *tableStorage) First(ctx context.Context, purp field.FieldPurpose, uid s
 		if sqlscan.NotFound(err) {
 			return nil
 		}
-		return err
+		return errors.WithStack(err)
 	}
 
 	return nil
@@ -100,13 +101,13 @@ func (s *tableStorage) UpdateFirst(ctx context.Context, purp field.FieldPurpose,
 	uidField := s.getUIDField(purp)
 	rawData, err := json.Marshal(data)
 	if err != nil {
-		return err
+		return errors.WithStack(err)
 	}
 
 	var mapData map[string]interface{}
 	err = json.Unmarshal(rawData, &mapData)
 	if err != nil {
-		return err
+		return errors.WithStack(err)
 	}
 
 	q := sq.
@@ -118,17 +119,17 @@ func (s *tableStorage) UpdateFirst(ctx context.Context, purp field.FieldPurpose,
 	c.ApplyOptions(opts...)
 	sql, args, err := q.ToSql()
 	if err != nil {
-		return err
+		return errors.WithStack(err)
 	}
 
 	stmnt, err := s.db.PrepareContext(ctx, sql)
 	if err != nil {
-		return err
+		return errors.WithStack(err)
 	}
 
 	_, err = stmnt.ExecContext(ctx, args...)
 	if err != nil {
-		return err
+		return errors.WithStack(err)
 	}
 
 	return nil
@@ -137,29 +138,29 @@ func (s *tableStorage) UpdateFirst(ctx context.Context, purp field.FieldPurpose,
 func (s *tableStorage) CreateOne(ctx context.Context, data interface{}) error {
 	rawData, err := json.Marshal(data)
 	if err != nil {
-		return err
+		return errors.WithStack(err)
 	}
 
 	var mapData map[string]interface{}
 	err = json.Unmarshal(rawData, &mapData)
 	if err != nil {
-		return err
+		return errors.WithStack(err)
 	}
 
 	q := sq.Insert(s.table).SetMap(mapData)
 	sql, args, err := q.ToSql()
 	if err != nil {
-		return err
+		return errors.WithStack(err)
 	}
 
 	stmnt, err := s.db.PrepareContext(ctx, sql)
 	if err != nil {
-		return err
+		return errors.WithStack(err)
 	}
 
 	_, err = stmnt.ExecContext(ctx, args...)
 	if err != nil {
-		return err
+		return errors.WithStack(err)
 	}
 
 	return nil
@@ -177,17 +178,17 @@ func (s *tableStorage) Get(ctx context.Context, purp field.FieldPurpose, UIDs []
 	c.ApplyOptions(opts...)
 	sql, args, err := q.ToSql()
 	if err != nil {
-		return hasMoreResults, err
+		return hasMoreResults, errors.WithStack(err)
 	}
 
 	stmnt, err := s.db.PrepareContext(ctx, sql)
 	if err != nil {
-		return hasMoreResults, err
+		return hasMoreResults, errors.WithStack(err)
 	}
 
 	rows, err := stmnt.QueryContext(ctx, args...)
 	if err != nil {
-		return hasMoreResults, err
+		return hasMoreResults, errors.WithStack(err)
 	}
 
 	err = sqlscan.ScanAll(&dest, rows)
@@ -196,7 +197,7 @@ func (s *tableStorage) Get(ctx context.Context, purp field.FieldPurpose, UIDs []
 		if sqlscan.NotFound(err) {
 			return hasMoreResults, nil
 		}
-		return hasMoreResults, err
+		return hasMoreResults, errors.WithStack(err)
 	}
 
 	return hasMoreResults, nil
@@ -213,17 +214,17 @@ func (s *tableStorage) DeleteFirst(ctx context.Context, purp field.FieldPurpose,
 	c.ApplyOptions(opts...)
 	sql, args, err := q.ToSql()
 	if err != nil {
-		return err
+		return errors.WithStack(err)
 	}
 
 	stmnt, err := s.db.PrepareContext(ctx, sql)
 	if err != nil {
-		return err
+		return errors.WithStack(err)
 	}
 
 	_, err = stmnt.ExecContext(ctx, args...)
 	if err != nil {
-		return err
+		return errors.WithStack(err)
 	}
 
 	return nil
@@ -240,17 +241,17 @@ func (s *tableStorage) Delete(ctx context.Context, purp field.FieldPurpose, uids
 	c.ApplyOptions(opts...)
 	sql, args, err := q.ToSql()
 	if err != nil {
-		return err
+		return errors.WithStack(err)
 	}
 
 	stmnt, err := s.db.PrepareContext(ctx, sql)
 	if err != nil {
-		return err
+		return errors.WithStack(err)
 	}
 
 	_, err = stmnt.ExecContext(ctx, args...)
 	if err != nil {
-		return err
+		return errors.WithStack(err)
 	}
 
 	return nil
