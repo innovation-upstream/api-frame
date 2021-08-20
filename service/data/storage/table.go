@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
+	"log"
 
 	sq "github.com/Masterminds/squirrel"
 	"github.com/georgysavva/scany/sqlscan"
@@ -173,7 +174,9 @@ func (s *tableStorage) Get(ctx context.Context, purp field.FieldPurpose, UIDs []
 	q := sq.
 		Select("*").
 		From(s.table).
-		Where(fmt.Sprintf("%s in ?", uidField), UIDs)
+		Where(sq.Eq{
+			uidField: UIDs,
+		})
 	c := query.NewMysqlQueryCustomize(&q, nil, nil, nil)
 	c.ApplyOptions(opts...)
 	sql, args, err := q.ToSql()
@@ -191,13 +194,37 @@ func (s *tableStorage) Get(ctx context.Context, purp field.FieldPurpose, UIDs []
 		return hasMoreResults, errors.WithStack(err)
 	}
 
-	err = sqlscan.ScanAll(&dest, rows)
-	if err != nil {
-		// If rows is empty
-		if sqlscan.NotFound(err) {
-			return hasMoreResults, nil
+	for rows.Next() {
+		destMap := make(map[string]interface{})
+		colNames, err := rows.Columns()
+		if err != nil {
+			log.Fatal(err)
 		}
-		return hasMoreResults, errors.WithStack(err)
+
+		cols := make([]string, len(colNames))
+		colPtrs := make([]interface{}, len(colNames))
+		for i := 0; i < len(colNames); i++ {
+			colPtrs[i] = &cols[i]
+		}
+
+		err = rows.Scan(colPtrs...)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		if err != nil {
+			// If rows is empty
+			if sqlscan.NotFound(err) {
+				return hasMoreResults, nil
+			}
+			return hasMoreResults, errors.WithStack(err)
+		}
+
+		for i, col := range cols {
+			destMap[colNames[i]] = col
+		}
+
+		*dest = append(*dest, &destMap)
 	}
 
 	return hasMoreResults, nil

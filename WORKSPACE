@@ -109,8 +109,8 @@ go_repository(
 go_repository(
     name = "com_github_georgysavva_scany",
     importpath = "github.com/georgysavva/scany",
-    sum = "h1:SBEuurTvWOUp7FnGBOjeSF9XWaWmVzc91h9baPo6y2s=",
-    version = "v0.2.7",
+    sum = "h1:Xt6rjYpHnMClTm/g+oZTnoSxUwiln5GqMNU+QeLNHQU=",
+    version = "v0.2.9",
 )
 
 go_repository(
@@ -158,8 +158,8 @@ go_repository(
 go_repository(
     name = "com_github_jackc_pgconn",
     importpath = "github.com/jackc/pgconn",
-    sum = "h1:LRlrfJW9S99uiOCY8F/qLvX1yEY1TVAaCBHFb79yHBQ=",
-    version = "v1.5.1-0.20200601181101-fa742c524853",
+    sum = "h1:pwjzcYyfmz/HQOQlENvG1OcDqauTGaqlVahq934F0/U=",
+    version = "v1.7.0",
 )
 
 go_repository(
@@ -193,22 +193,22 @@ go_repository(
 go_repository(
     name = "com_github_jackc_pgproto3_v2",
     importpath = "github.com/jackc/pgproto3/v2",
-    sum = "h1:Rdjp4NFjwHnEslx2b66FfCI2S0LhO4itac3hXz6WX9M=",
-    version = "v2.0.1",
+    sum = "h1:NUbEWPmCQZbMmYlTjVoNPhc0CfnYyz2bfUAh6A5ZVJM=",
+    version = "v2.0.5",
 )
 
 go_repository(
     name = "com_github_jackc_pgservicefile",
     importpath = "github.com/jackc/pgservicefile",
-    sum = "h1:Q3tB+ExeflWUW7AFcAhXqk40s9mnNYLk1nOkKNZ5GnU=",
-    version = "v0.0.0-20200307190119-3430c5407db8",
+    sum = "h1:C8S2+VttkHFdOOCXJe+YGfa4vHYwlt4Zx+IVXQ97jYg=",
+    version = "v0.0.0-20200714003250-2b9c44734f2b",
 )
 
 go_repository(
     name = "com_github_jackc_pgtype",
     importpath = "github.com/jackc/pgtype",
-    sum = "h1:Q3xuJFjRiDWk+spLFVbiBFFmQTmKm5F+/dPdSBDxBdM=",
-    version = "v1.3.1-0.20200612023650-09efc3839047",
+    sum = "h1:t+6LWm5eWPLX1H5Se702JSBcirq6uWa4jiG4wV1rAWY=",
+    version = "v1.4.2",
 )
 
 go_repository(
@@ -221,15 +221,15 @@ go_repository(
 go_repository(
     name = "com_github_jackc_pgx_v4",
     importpath = "github.com/jackc/pgx/v4",
-    sum = "h1:SdGWuGg+Cpxq6Z+ArXt0nafaKeTvtKGEoW+yvycspUU=",
-    version = "v4.6.1-0.20200606145419-4e5062306904",
+    sum = "h1:SUbCLP2pXvf/Sr/25KsuI4aTxiFYIvpfk4l6aTSdyCw=",
+    version = "v4.8.1",
 )
 
 go_repository(
     name = "com_github_jackc_puddle",
     importpath = "github.com/jackc/puddle",
-    sum = "h1:PJAw7H/9hoWC4Kf3J8iNmL1SwA6E8vfsLqBiL+F6CtI=",
-    version = "v1.1.1",
+    sum = "h1:mpQEXihFnWGDy6X98EOTh81JYuxn7txby8ilJ3iIPGM=",
+    version = "v1.1.2",
 )
 
 go_repository(
