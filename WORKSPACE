@@ -130,8 +130,8 @@ go_repository(
 go_repository(
     name = "com_github_gofrs_uuid",
     importpath = "github.com/gofrs/uuid",
-    sum = "h1:y12jRkkFxsd7GpqdSZ+/KCs/fJbqpEXSGd4+jfEaewE=",
-    version = "v3.2.0+incompatible",
+    sum = "h1:1SD/1F5pU8p29ybwgQSwpQk+mwdRrXCYuPhW6m+TnJw=",
+    version = "v4.0.0+incompatible",
 )
 
 go_repository(
@@ -440,6 +440,27 @@ go_repository(
     importpath = "github.com/innovation-upstream/casbin-firestore-adapter",
     sum = "h1:A5f0uOrJreRfsWAw4zyftIsKWrYuAiG2APc9/SjUdj0=",
     version = "v0.1.3",
+)
+
+go_repository(
+    name = "com_github_bugsnag_bugsnag_go",
+    importpath = "github.com/bugsnag/bugsnag-go",
+    sum = "h1:E7dor84qzwUO8KdCM68CZwq9QOSR7HXlLx3Wj5vui2s=",
+    version = "v2.1.2+incompatible",
+)
+
+go_repository(
+    name = "com_github_bugsnag_panicwrap",
+    importpath = "github.com/bugsnag/panicwrap",
+    sum = "h1:A6sXFtDGsgU/4BLf5JT0o5uYg3EeKgGx3Sfs+/uk3pU=",
+    version = "v1.3.4",
+)
+
+go_repository(
+    name = "com_github_kardianos_osext",
+    importpath = "github.com/kardianos/osext",
+    sum = "h1:iQTw/8FWTuc7uiaSepXwyf3o52HaUYcV+Tu66S3F5GA=",
+    version = "v0.0.0-20190222173326-2bc1f35cddc0",
 )
 
 protobuf_deps()
