@@ -10,7 +10,12 @@ import (
 	"unknwon.dev/clog/v2"
 )
 
-func GetAccessControl(ctx context.Context, rawACModel string, db *firestore.Client) AccessControl {
+func GetAccessControl(
+	ctx context.Context,
+	rawACModel string,
+	db *firestore.Client,
+	opts ...AccessControlOption,
+) AccessControl {
 	a := firestoreadapter.NewAdapter(db)
 	acModel, err := model.NewModelFromString(rawACModel)
 	if err != nil {
@@ -23,6 +28,7 @@ func GetAccessControl(ctx context.Context, rawACModel string, db *firestore.Clie
 	}
 
 	enforcer.EnableAutoSave(true)
-	ac := NewAccessControl(enforcer)
+	ac := NewAccessControl(enforcer, opts...)
+
 	return ac
 }

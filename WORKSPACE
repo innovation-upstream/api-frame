@@ -463,6 +463,20 @@ go_repository(
     version = "v0.0.0-20190222173326-2bc1f35cddc0",
 )
 
+go_repository(
+    name = "com_github_bitly_go_simplejson",
+    importpath = "github.com/bitly/go-simplejson",
+    sum = "h1:6IH+V8/tVMab511d5bn4M7EwGXZf9Hj6i2xSwkNEM+Y=",
+    version = "v0.5.0",
+)
+
+go_repository(
+    name = "com_github_bmizerany_assert",
+    importpath = "github.com/bmizerany/assert",
+    sum = "h1:DDGfHa7BWjL4YnC6+E63dPcxHo2sUxDIu8g3QgEJdRY=",
+    version = "v0.0.0-20160611221934-b7ed37b82869",
+)
+
 protobuf_deps()
 
 go_repository(
