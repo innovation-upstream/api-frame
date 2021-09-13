@@ -1,3 +1,5 @@
+# DEPRECATED
+
 # API Frame
 
 A Go module containing framework code for building microservices
