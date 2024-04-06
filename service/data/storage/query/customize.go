@@ -1,6 +1,6 @@
 package query
 
-//go:generate mockgen -destination=../mock/customize_mock.go -package=mock gitlab.innovationup.stream/innovation-upstream/api-frame/service/data/storage/query Customize
+//go:generate mockgen -destination=../mock/customize_mock.go -package=mock github.com/innovation-upstream/api-frame/service/data/storage/query Customize
 
 // Customize is for decoupling external query interfaces from storage consumers
 type Customize interface {

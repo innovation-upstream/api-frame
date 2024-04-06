@@ -14,7 +14,7 @@ go_library(
         "storage.go",
         "table.go",
     ],
-    importpath = "gitlab.innovationup.stream/innovation-upstream/api-frame/service/data/storage",
+    importpath = "github.com/innovation-upstream/api-frame/service/data/storage",
     visibility = ["//visibility:public"],
     deps = [
         "//service/data/storage/field",

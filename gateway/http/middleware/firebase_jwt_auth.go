@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"gitlab.innovationup.stream/innovation-upstream/api-frame/provider"
+	"github.com/innovation-upstream/api-frame/provider"
 )
 
 // Private key for context. This is to prevent collisions between different context uses

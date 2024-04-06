@@ -6,7 +6,7 @@ go_library(
         "customize.go",
         "option.go",
     ],
-    importpath = "gitlab.innovationup.stream/innovation-upstream/api-frame/service/data/storage/query",
+    importpath = "github.com/innovation-upstream/api-frame/service/data/storage/query",
     visibility = ["//visibility:public"],
 )
 

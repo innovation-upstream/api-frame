@@ -1,4 +1,4 @@
-module gitlab.innovationup.stream/innovation-upstream/api-frame
+module github.com/innovation-upstream/api-frame
 
 go 1.15
 

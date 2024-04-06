@@ -3,11 +3,11 @@ package storage
 import (
 	"context"
 
-	"gitlab.innovationup.stream/innovation-upstream/api-frame/service/data/storage/field"
-	"gitlab.innovationup.stream/innovation-upstream/api-frame/service/data/storage/query"
+	"github.com/innovation-upstream/api-frame/service/data/storage/field"
+	"github.com/innovation-upstream/api-frame/service/data/storage/query"
 )
 
-//go:generate mockgen -destination=../mock/storage_mock.go -package=mock gitlab.innovationup.stream/innovation-upstream/api-frame/service/data/storage Storage
+//go:generate mockgen -destination=../mock/storage_mock.go -package=mock github.com/innovation-upstream/api-frame/service/data/storage Storage
 
 /*
 Storage is a generic data persistance interface that aims to wrap interaction with data persistance

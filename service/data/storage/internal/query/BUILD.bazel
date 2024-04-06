@@ -6,7 +6,7 @@ go_library(
         "firebase_query_customize.go",
         "mysql_query_customize.go",
     ],
-    importpath = "gitlab.innovationup.stream/innovation-upstream/api-frame/service/data/storage/internal/query",
+    importpath = "github.com/innovation-upstream/api-frame/service/data/storage/internal/query",
     visibility = ["//service/data/storage:__subpackages__"],
     deps = [
         "//service/data/storage/query",

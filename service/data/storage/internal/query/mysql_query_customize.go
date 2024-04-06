@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	sq "github.com/Masterminds/squirrel"
-	"gitlab.innovationup.stream/innovation-upstream/api-frame/service/data/storage/query"
+	"github.com/innovation-upstream/api-frame/service/data/storage/query"
 )
 
 type mysqlQueryCustomize struct {

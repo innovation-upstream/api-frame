@@ -2,7 +2,7 @@ package query
 
 import (
 	"cloud.google.com/go/firestore"
-	"gitlab.innovationup.stream/innovation-upstream/api-frame/service/data/storage/query"
+	"github.com/innovation-upstream/api-frame/service/data/storage/query"
 )
 
 type (

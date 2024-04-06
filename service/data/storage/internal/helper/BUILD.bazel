@@ -3,7 +3,7 @@ load("@io_bazel_rules_go//go:def.bzl", "go_library")
 go_library(
     name = "helper",
     srcs = ["helper.go"],
-    importpath = "gitlab.innovationup.stream/innovation-upstream/api-frame/service/data/storage/internal/helper",
+    importpath = "github.com/innovation-upstream/api-frame/service/data/storage/internal/helper",
     visibility = ["//service/data/storage:__subpackages__"],
     deps = [
         "@com_google_cloud_go_firestore//:go_default_library",

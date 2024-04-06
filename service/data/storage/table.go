@@ -10,9 +10,9 @@ import (
 	sq "github.com/Masterminds/squirrel"
 	"github.com/georgysavva/scany/sqlscan"
 	"github.com/pkg/errors"
-	"gitlab.innovationup.stream/innovation-upstream/api-frame/service/data/storage/field"
-	"gitlab.innovationup.stream/innovation-upstream/api-frame/service/data/storage/internal/query"
-	externQuery "gitlab.innovationup.stream/innovation-upstream/api-frame/service/data/storage/query"
+	"github.com/innovation-upstream/api-frame/service/data/storage/field"
+	"github.com/innovation-upstream/api-frame/service/data/storage/internal/query"
+	externQuery "github.com/innovation-upstream/api-frame/service/data/storage/query"
 )
 
 type tableStorage struct {

@@ -3,7 +3,7 @@ load("@io_bazel_rules_go//go:def.bzl", "go_library")
 go_library(
     name = "bugsnag",
     srcs = ["interceptor.go"],
-    importpath = "gitlab.innovationup.stream/innovation-upstream/api-frame/grpc/interceptor/bugsnag",
+    importpath = "github.com/innovation-upstream/api-frame/grpc/interceptor/bugsnag",
     visibility = ["//visibility:public"],
     deps = [
         "@com_github_bugsnag_bugsnag_go//:go_default_library",

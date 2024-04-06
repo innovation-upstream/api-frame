@@ -6,7 +6,7 @@ go_library(
         "cloudflare_access_jwt.go",
         "firebase_jwt_auth.go",
     ],
-    importpath = "gitlab.innovationup.stream/innovation-upstream/api-frame/gateway/http/middleware",
+    importpath = "github.com/innovation-upstream/api-frame/gateway/http/middleware",
     visibility = ["//visibility:public"],
     deps = [
         "//provider",
